@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title ng-bind="title">Test</title>
+    <style>
+        /* This helps the ng-show/ng-hide animations start at the right place. */
+        /* Since Angular has this but needs to load, this gives us the class early. */
+        .ng-hide {
+            display: none!important;
+        }
+        body {
+            padding-top: 70px;
+        }
+    </style>
+    <!-- bower:css -->
+    <!-- endbower -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Swiss Settings Demo</a>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row" ng-controller="Main as vm">
+        <div class="col-xs-12">
+            Hello!!
+        </div>
+    </div>
+</div>
+
+
+<!-- bower:js -->
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<!-- endbower -->
+<script src="../src/swissSettings.module.js"></script>
+<script src="../src/swissSettingsService.js"></script>
+<script src="../src/fields/abstractField.js"></script>
+<script src="../src/fields/booleanField.js"></script>
+
+<script src="components/app.module.js"></script>
+<script src="components/core/core.module.js"></script>
+
+<script src="components/mainScreen/mainScreen.module.js"></script>
+<script src="components/mainScreen/mainCtrl.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "name": "swissSettings",
+  "version": "0.0.1",
+  "description": "",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezraroi/angularSettings.git"
+  },
+  "author": "Roi Ezra",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bump": "0.3.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "~0.11.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-jscs": "^1.6.0",
+    "grunt-karma": "^0.10.1",
+    "grunt-newer": "^1.1.0",
+    "grunt-ng-annotate": "~0.10.0",
+    "grunt-wiredep": "~2.0.0",
+    "jasmine-core": "^2.3.4",
+    "jshint-stylish": "^1.0.1",
+    "karma": "^0.12.24",
+    "karma-coverage": "^0.2.6",
+    "karma-jasmine": "^0.2.2",
+    "karma-phantomjs-launcher": "~0.1.4",
+    "load-grunt-tasks": "~0.6.0",
+    "time-grunt": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {}
+}
