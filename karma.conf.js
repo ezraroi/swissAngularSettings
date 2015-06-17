@@ -28,6 +28,11 @@ module.exports = function(config) {
             'src/**/*.js' : ['coverage']
         },
 
+        coverageReporter: {
+            type: 'lcov',
+            dir: 'coverage/'
+        },
+
         reporters : ['coverage']
     });
 };
