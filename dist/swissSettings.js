@@ -22,7 +22,7 @@
             }
             this.name = name;
             this.typeName = typeName;
-            this.defaultValue = defaultValue || undefined;
+            this.defaultValue = angular.isDefined(defaultValue) ? this.setValue(defaultValue) : undefined;
         }
 
         AbstractField.prototype = {
@@ -160,7 +160,6 @@
         /* jshint validthis: true */
 
         function EnumField(name, allowedValues, defaultValue) {
-            AbstractField.call(this, name, 'ENUM', defaultValue);
             if (!angular.isArray(allowedValues)) {
                 throw 'allowedValues must be array';
             }
@@ -168,6 +167,7 @@
                 throw 'allowedValues must have at least one value';
             }
             this._allowedValues = allowedValues;
+            AbstractField.call(this, name, 'ENUM', defaultValue);
         }
 
         EnumField.prototype = Object.create(AbstractField.prototype);
@@ -219,6 +219,38 @@
         }
     }
     NumberFieldFactory.$inject = ['AbstractField'];
+})();
+;(function () {
+    'use strict';
+
+    angular
+        .module('swissSettings')
+        .factory('ObjectField', ObjectFieldFactory);
+
+    function ObjectFieldFactory(AbstractField) {
+        /* jshint validthis: true */
+
+        function ObjectField(name, defaultValue) {
+            AbstractField.call(this, name, 'OBJECT', defaultValue);
+        }
+
+        ObjectField.prototype = Object.create(AbstractField.prototype);
+        ObjectField.prototype.validate = validate;
+        ObjectField.prototype.format = format;
+
+        return ObjectField;
+
+        ////////////////
+
+        function validate(value) {
+            return angular.isObject(value) && !angular.isArray(value);
+        }
+
+        function format(value) {
+            return value;
+        }
+    }
+    ObjectFieldFactory.$inject = ['AbstractField'];
 })();
 ;(function () {
     'use strict';
@@ -355,7 +387,10 @@
         }
 
         function registerObjectField(name, defaultValue) {
-
+            schema.push({
+                type : 'ObjectField',
+                params: arguments
+            });
         }
     }
 })();

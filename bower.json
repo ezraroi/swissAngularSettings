@@ -5,7 +5,7 @@
     "Roi Ezra <ezraroi@gmail.com>"
   ],
   "description": "",
-  "main": [],
+  "main": "dist/swissSettings.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
