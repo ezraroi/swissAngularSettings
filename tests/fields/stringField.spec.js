@@ -23,6 +23,11 @@ describe('String Field', function() {
         expect(function() {tested.setValue({});}).toThrow('Invalid value: [object Object]');
     });
 
+    it('should fail when default value is not valid value', function() {
+        expect(function() {var a = new StringField('test', 1);})
+            .toThrow('Invalid value: 1');
+    });
+
     it('should return STRING type name', function() {
         var tested = new StringField('test');
 

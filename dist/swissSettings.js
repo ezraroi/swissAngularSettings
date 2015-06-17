@@ -45,7 +45,9 @@
         }
 
         function setValue(value) {
-            this.validate(value);
+            if (!this.validate(value)) {
+                throw 'Invalid value: ' + value;
+            }
             localStorageService.set(this.name, value);
             $log.debug('AbstractField: saved field ' + name + ' with value: ' + value);
         }
@@ -59,11 +61,11 @@
         }
 
         function validate() {
-            throw new Error('AbstractField: This method is abstract');
+            throw 'This method is abstract';
         }
 
         function format() {
-            throw new Error('AbstractField: This method is abstract');
+            throw 'This method is abstract';
         }
 
         function toJSON() {
@@ -76,6 +78,38 @@
         }
     }
     AbstractFieldFactory.$inject = ['$log', 'localStorageService'];
+})();
+;(function () {
+    'use strict';
+
+    angular
+        .module('swissSettings')
+        .factory('ArrayField', ArrayFieldFactory);
+
+    function ArrayFieldFactory(AbstractField) {
+        /* jshint validthis: true */
+
+        function ArrayField(name, defaultValue) {
+            AbstractField.call(this, name, 'ARRAY', defaultValue);
+        }
+
+        ArrayField.prototype = Object.create(AbstractField.prototype);
+        ArrayField.prototype.validate = validate;
+        ArrayField.prototype.format = format;
+
+        return ArrayField;
+
+        ////////////////
+
+        function validate(value) {
+            return angular.isArray(value);
+        }
+
+        function format(value) {
+            return value;
+        }
+    }
+    ArrayFieldFactory.$inject = ['AbstractField'];
 })();
 ;(function () {
     'use strict';
@@ -100,14 +134,123 @@
         ////////////////
 
         function validate(value) {
+            if ((typeof value !== 'string') && (typeof value !== 'boolean')) {
+                return false;
+            }
+            if (typeof value === 'string') {
+                return value === 'true' || value === 'false';
+            }
+            return true;
+        }
 
+        function format(value) {
+            return (typeof value === 'string' ? value === 'true' : value);
+        }
+    }
+    BooleanFieldFactory.$inject = ['AbstractField'];
+})();
+;(function () {
+    'use strict';
+
+    angular
+        .module('swissSettings')
+        .factory('EnumField', EnumFieldFactory);
+
+    function EnumFieldFactory(AbstractField) {
+        /* jshint validthis: true */
+
+        function EnumField(name, allowedValues, defaultValue) {
+            AbstractField.call(this, name, 'ENUM', defaultValue);
+            if (!angular.isArray(allowedValues)) {
+                throw 'allowedValues must be array';
+            }
+            if (allowedValues.length === 0) {
+                throw 'allowedValues must have at least one value';
+            }
+            this._allowedValues = allowedValues;
+        }
+
+        EnumField.prototype = Object.create(AbstractField.prototype);
+        EnumField.prototype.validate = validate;
+        EnumField.prototype.format = format;
+
+        return EnumField;
+
+        ////////////////
+
+        function validate(value) {
+            return this._allowedValues.indexOf(value) !== -1;
         }
 
         function format(value) {
             return value;
         }
     }
-    BooleanFieldFactory.$inject = ['AbstractField'];
+    EnumFieldFactory.$inject = ['AbstractField'];
+})();
+;(function () {
+    'use strict';
+
+    angular
+        .module('swissSettings')
+        .factory('NumberField', NumberFieldFactory);
+
+    function NumberFieldFactory(AbstractField) {
+        /* jshint validthis: true */
+
+        function NumberField(name, defaultValue) {
+            AbstractField.call(this, name, 'NUMBER', defaultValue);
+        }
+
+        NumberField.prototype = Object.create(AbstractField.prototype);
+        NumberField.prototype.validate = validate;
+        NumberField.prototype.format = format;
+
+        return NumberField;
+
+        ////////////////
+
+        function validate(value) {
+            return typeof value === 'number';
+        }
+
+        function format(value) {
+            return value;
+        }
+    }
+    NumberFieldFactory.$inject = ['AbstractField'];
+})();
+;(function () {
+    'use strict';
+
+    angular
+        .module('swissSettings')
+        .factory('StringField', StringFieldFactory);
+
+    function StringFieldFactory(AbstractField) {
+        /* jshint validthis: true */
+
+        function StringField(name, defaultValue) {
+            AbstractField.call(this, name, 'STRING', defaultValue);
+        }
+
+        StringField.prototype = Object.create(AbstractField.prototype);
+        StringField.prototype.validate = validate;
+        StringField.prototype.format = format;
+
+        return StringField;
+
+        ////////////////
+
+        function validate(value) {
+            return typeof value === 'string';
+        }
+
+        function format(value) {
+            return value;
+        }
+    }
+    StringFieldFactory.$inject = ['AbstractField'];
 })();
 ;(function () {
     'use strict';
@@ -122,7 +265,7 @@
         var service = this;
         service.registerBooleanField = registerBooleanField;
         service.registerStringField = registerStringField;
-        service.registerIntegerField = registerIntegerField;
+        service.registerNumberField = registerNumberField;
         service.registerArrayField = registerArrayField;
         service.registerEnumField = registerEnumField;
         service.registerObjectField = registerObjectField;
@@ -184,19 +327,31 @@
         }
 
         function registerStringField(name, defaultValue) {
-
+            schema.push({
+                type : 'StringField',
+                params: arguments
+            });
         }
 
-        function registerIntegerField(name, defaultValue) {
-
+        function registerNumberField(name, defaultValue) {
+            schema.push({
+                type : 'NumberField',
+                params: arguments
+            });
         }
 
         function registerArrayField(name, defaultValue) {
-
+            schema.push({
+                type : 'ArrayField',
+                params: arguments
+            });
         }
 
         function registerEnumField(name, allowedValues, defaultValue) {
-
+            schema.push({
+                type : 'EnumField',
+                params: arguments
+            });
         }
 
         function registerObjectField(name, defaultValue) {

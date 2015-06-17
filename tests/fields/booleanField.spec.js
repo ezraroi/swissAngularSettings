@@ -42,10 +42,24 @@ describe('Boolean Field', function() {
         expect(function() {tested.setValue({});}).toThrow('Invalid value: [object Object]');
     });
 
+    it('should fail when default value is not valid value', function() {
+        expect(function() {var a = new BooleanField('test', 'd');})
+            .toThrow('Invalid value: d');
+
+        expect(function() {var a = new BooleanField('test', 1);})
+            .toThrow('Invalid value: 1');
+    });
+
     it('should return BOOLEAN type name', function() {
         var tested = new BooleanField('test');
 
         expect(tested.getTypeName()).toBe('BOOLEAN');
+    });
+
+    it('should return default value when no value defined', function() {
+        var tested = new BooleanField('test', false);
+
+        expect(tested.getValue()).toBeFalsy();
     });
 
 });

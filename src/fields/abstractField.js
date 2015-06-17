@@ -14,7 +14,7 @@
             }
             this.name = name;
             this.typeName = typeName;
-            this.defaultValue = defaultValue || undefined;
+            this.defaultValue = angular.isDefined(defaultValue) ? this.setValue(defaultValue) : undefined;
         }
 
         AbstractField.prototype = {

@@ -26,6 +26,11 @@ describe('Number Field', function() {
         expect(function() {tested.setValue({});}).toThrow('Invalid value: [object Object]');
     });
 
+    it('should fail when default value is not valid value', function() {
+        expect(function() {var a = new NumberField('test', 'd');})
+            .toThrow('Invalid value: d');
+    });
+
     it('should return NUMBER type name', function() {
         var tested = new NumberField('test');
 

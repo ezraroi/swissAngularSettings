@@ -86,15 +86,24 @@
         }
 
         function registerArrayField(name, defaultValue) {
-
+            schema.push({
+                type : 'ArrayField',
+                params: arguments
+            });
         }
 
         function registerEnumField(name, allowedValues, defaultValue) {
-
+            schema.push({
+                type : 'EnumField',
+                params: arguments
+            });
         }
 
         function registerObjectField(name, defaultValue) {
-
+            schema.push({
+                type : 'ObjectField',
+                params: arguments
+            });
         }
     }
 })();

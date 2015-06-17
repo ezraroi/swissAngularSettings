@@ -5,11 +5,14 @@
         .module('app.mainScreen')
         .controller('Main', Main);
 
-    function Main(swissSettingsService) {
+    function Main($log, swissSettingsService) {
         /* jshint validthis: true */
         var vm = this;
 
         vm.swissSettingsService = swissSettingsService;
+        $log.debug('Field: ' + swissSettingsService.getTestFiled());
+        $log.debug('Field2: ' + swissSettingsService.getTestFiled2());
+        $log.debug('Field3: ' + swissSettingsService.getTestFiled3());
 
         ////////////////
 
