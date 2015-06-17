@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/ezraroi/angularSettings.git"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "author": "Roi Ezra",
   "license": "ISC",
   "devDependencies": {
