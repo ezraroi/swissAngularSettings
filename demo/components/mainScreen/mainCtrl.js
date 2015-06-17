@@ -13,6 +13,8 @@
         $log.debug('Field: ' + swissSettingsService.getTestFiled());
         $log.debug('Field2: ' + swissSettingsService.getTestFiled2());
         $log.debug('Field3: ' + swissSettingsService.getTestFiled3());
+        swissSettingsService.setTestFiled3(true);
+        $log.debug('Field3: ' + swissSettingsService.getTestFiled3());
 
         ////////////////
 
