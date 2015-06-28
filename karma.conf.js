@@ -33,6 +33,6 @@ module.exports = function(config) {
             dir: 'coverage/'
         },
 
-        reporters : ['coverage']
+        reporters : ['progress', 'coverage']
     });
 };

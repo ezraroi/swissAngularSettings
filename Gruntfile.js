@@ -10,7 +10,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-karma-coveralls');
+    grunt.loadNpmTasks('grunt-coveralls');
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -131,14 +131,12 @@ module.exports = function (grunt) {
 
         coveralls: {
             options: {
-                debug: true,
-                coverageDir: 'coverage',
-                dryRun: true,
-                force: true,
-                recursive: true
+                force: false
+            },
+            test: {
+                src: 'coverage/*/lcov.info'
             }
         },
-
         bump: {
             options: {
                 files: ['package.json', 'bower.json'],
