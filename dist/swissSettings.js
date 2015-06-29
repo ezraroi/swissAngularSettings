@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('swissSettings', [
+        .module('swissAngularSettings', [
             'LocalStorageModule'
         ]);
 })();
@@ -10,7 +10,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('AbstractField', AbstractFieldFactory);
 
     function AbstractFieldFactory($log, localStorageService) {
@@ -83,7 +83,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('ArrayField', ArrayFieldFactory);
 
     function ArrayFieldFactory(AbstractField) {
@@ -115,7 +115,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('BooleanField', BooleanFieldFactory);
 
     function BooleanFieldFactory(AbstractField) {
@@ -153,7 +153,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('EnumField', EnumFieldFactory);
 
     function EnumFieldFactory(AbstractField) {
@@ -192,7 +192,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('NumberField', NumberFieldFactory);
 
     function NumberFieldFactory(AbstractField) {
@@ -224,7 +224,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('ObjectField', ObjectFieldFactory);
 
     function ObjectFieldFactory(AbstractField) {
@@ -256,7 +256,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('StringField', StringFieldFactory);
 
     function StringFieldFactory(AbstractField) {
@@ -288,7 +288,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .provider('swissSettingsService', swissSettingsService);
 
     function swissSettingsService() {
