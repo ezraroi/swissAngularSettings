@@ -1,11 +1,11 @@
 {
-  "name": "swissSettings",
+  "name": "swissAngularSettings",
   "version": "0.0.1",
   "description": "",
   "main": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ezraroi/angularSettings.git"
+    "url": "https://github.com/ezraroi/swissAngularSettings"
   },
   "scripts": {
     "test": "grunt test"
