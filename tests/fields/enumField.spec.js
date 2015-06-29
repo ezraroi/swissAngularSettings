@@ -4,7 +4,7 @@ describe('Enum Field', function() {
 
     var EnumField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_EnumField_) {
         EnumField = _EnumField_;

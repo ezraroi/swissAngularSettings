@@ -4,7 +4,7 @@ describe('Number Field', function() {
 
     var NumberField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_NumberField_) {
         NumberField = _NumberField_;

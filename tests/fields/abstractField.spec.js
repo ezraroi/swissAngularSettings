@@ -4,7 +4,7 @@ describe('Abstract Field', function() {
 
     var AbstractField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_AbstractField_) {
         AbstractField = _AbstractField_;

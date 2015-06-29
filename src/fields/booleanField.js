@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('BooleanField', BooleanFieldFactory);
 
     function BooleanFieldFactory(AbstractField) {

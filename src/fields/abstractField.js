@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('AbstractField', AbstractFieldFactory);
 
     function AbstractFieldFactory($log, localStorageService) {

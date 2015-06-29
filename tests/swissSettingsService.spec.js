@@ -2,7 +2,7 @@
 
 describe('swissSettingsService', function() {
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     afterEach(inject(function(localStorageService) {
         localStorageService.clearAll();

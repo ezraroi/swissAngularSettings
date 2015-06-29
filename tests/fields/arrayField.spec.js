@@ -4,7 +4,7 @@ describe('Array Field', function() {
 
     var ArrayField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_ArrayField_) {
         ArrayField = _ArrayField_;

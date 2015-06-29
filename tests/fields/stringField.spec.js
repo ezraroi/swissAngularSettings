@@ -4,7 +4,7 @@ describe('String Field', function() {
 
     var StringField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_StringField_) {
         StringField = _StringField_;

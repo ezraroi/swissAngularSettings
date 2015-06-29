@@ -4,7 +4,7 @@ describe('Boolean Field', function() {
 
     var BooleanField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_BooleanField_) {
         BooleanField = _BooleanField_;

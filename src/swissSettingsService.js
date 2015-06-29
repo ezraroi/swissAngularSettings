@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .provider('swissSettingsService', swissSettingsService);
 
     function swissSettingsService() {

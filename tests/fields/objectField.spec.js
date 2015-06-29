@@ -4,7 +4,7 @@ describe('Object Field', function() {
 
     var ObjectField;
 
-    beforeEach(module('swissSettings'));
+    beforeEach(module('swissAngularSettings'));
 
     beforeEach(inject(function(_ObjectField_) {
         ObjectField = _ObjectField_;

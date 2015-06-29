@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('swissSettings')
+        .module('swissAngularSettings')
         .factory('ArrayField', ArrayFieldFactory);
 
     function ArrayFieldFactory(AbstractField) {

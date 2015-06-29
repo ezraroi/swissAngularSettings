@@ -3,6 +3,6 @@
 
     angular
         .module('app.core', [
-            'swissSettings'
+            'swissAngularSettings'
         ]);
 })();
