@@ -6,7 +6,7 @@
 
 # Swiss Angular Settings
 
-Angular provider which auto generates service for saving and getting values from the local storage based on a defined schema.
+Angular provider which auto generates service for saving and getting values from the **local storage** based on a defined schema.
 
 ## Installation
 You can install the swissAngularSettings with bower:
@@ -36,7 +36,9 @@ Field can be from one the following types:
 * Array
 * Enum (Defined list of values)
 
-**The service will use the type of the field for input validation and parsing**
+****The service will use the type of the field for input validation and parsing****
+
+****All values are stored in the local storage of the browser****
 
 ### Defening your service schema
 You can use the following methods of the `swissSettingsServiceProvider` to define your service schema:
@@ -56,6 +58,32 @@ Example:
     function configure(swissSettingsServiceProvider) {
         swissSettingsServiceProvider.registerBooleanField('myBoolField', true);
         swissSettingsServiceProvider.registerBooleanField('myBoolField2');
+        swissSettingsServiceProvider.registerNumberField('myNumField');
         swissSettingsServiceProvider.registerEnumField('myEnumField', ['a','b'], 'b');
+    }
+```
+
+### Using the auto generated service
+For each field you define in your schema, the `swissSettingsService` will have 2 methods:
+
+* `get<FieldName>()` - Gets the last saved value from the local storage or the default one if defined.
+* `set<FieldName>(value)` - Saves the given value to the local storage.
+
+** The `FieldName` is the name given in the field defenition with the first char as capital letter **
+
+Example:
+```javascript
+    angular
+        .module('myApp')
+        .controller('Main', Main);
+
+    function Main( swissSettingsService) {
+        var vm = this;
+        swissSettingsService.getMyBoolField(); // true - the default value
+        swissSettingsService.getMyBoolField2(); // undefined - no default value defained
+        swissSettingsService.getMyEnumField(); // 'b' - the default value
+        swissSettingsService.setMyNumField('string'); // error - should be number
+        swissSettingsService.setMyBoolField(false); 
+        swissSettingsService.getMyBoolField(); // false
     }
 ```
