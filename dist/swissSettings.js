@@ -70,7 +70,8 @@
         }
 
         function setDefaultValue(value) {
-            if (!angular.isDefined(localStorageService.get(this.name))) {
+            var stored = localStorageService.get(this.name);
+            if (stored === null || !angular.isDefined(stored)) {
                 this.setValue(value);
             }
         }
