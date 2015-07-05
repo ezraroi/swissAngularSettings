@@ -14,7 +14,8 @@
             }
             this.name = name;
             this.typeName = typeName;
-            this.defaultValue = angular.isDefined(defaultValue) ? this.setValue(defaultValue) : undefined;
+            this.defaultValue = angular.isDefined(defaultValue) ?
+                setDefaultValue.call(this, defaultValue) : undefined;
         }
 
         AbstractField.prototype = {
@@ -58,6 +59,12 @@
 
         function format() {
             throw 'This method is abstract';
+        }
+
+        function setDefaultValue(value) {
+            if (!angular.isDefined(localStorageService.get(this.name))) {
+                this.setValue(value);
+            }
         }
 
         function toJSON() {
