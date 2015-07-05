@@ -158,8 +158,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', [
-        'karma',
-        'coveralls'
+        'karma'
     ]);
 
     grunt.registerTask('build', [
@@ -172,6 +171,7 @@ module.exports = function (grunt) {
         'newer:jshint',
         'newer:jscs',
         'test',
+        'coveralls',
         'build'
     ]);
 
