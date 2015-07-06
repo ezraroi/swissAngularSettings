@@ -2,12 +2,13 @@
 
 describe('String Field', function() {
 
-    var StringField;
+    var StringField, localStorageService;
 
     beforeEach(module('swissAngularSettings'));
 
-    beforeEach(inject(function(_StringField_) {
+    beforeEach(inject(function(_StringField_, _localStorageService_) {
         StringField = _StringField_;
+        localStorageService = _localStorageService_;
     }));
 
     afterEach(inject(function(localStorageService) {
@@ -56,4 +57,16 @@ describe('String Field', function() {
         expect(tested2.getValue()).toBe('default');
     });
 
+    it('should read from local storage only on first time', function() {
+        var tested = new StringField('a');
+        tested.setValue('abc');
+
+        tested = new StringField('a');
+
+        spyOn(localStorageService, 'get').and.callThrough();
+        expect(tested.getValue()).toBe('abc');
+        expect(tested.getValue()).toBe('abc');
+        expect(localStorageService.get).toHaveBeenCalledWith('a');
+        expect(localStorageService.get.calls.count()).toBe(1);
+    });
 });

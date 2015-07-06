@@ -5,7 +5,7 @@
         .module('swissAngularSettings')
         .factory('AbstractField', AbstractFieldFactory);
 
-    function AbstractFieldFactory($log, localStorageService) {
+    function AbstractFieldFactory(localStorageService) {
         /* jshint validthis: true */
 
         function AbstractField(name, typeName, defaultValue) {
@@ -16,6 +16,7 @@
             this.typeName = typeName;
             this.defaultValue = angular.isDefined(defaultValue) ?
                 setDefaultValue.call(this, defaultValue) : undefined;
+            this.value = undefined;
         }
 
         AbstractField.prototype = {
@@ -33,8 +34,10 @@
         ////////////////
 
         function getValue() {
-            var value = localStorageService.get(this.name);
-            return angular.isDefined(value) && value !== null ? this.format(value) : this.defaultValue;
+            if (this.value === undefined) {
+                this.value = localStorageService.get(this.name);
+            }
+            return angular.isDefined(this.value) && this.value !== null ? this.format(this.value) : this.defaultValue;
         }
 
         function setValue(value) {
@@ -42,7 +45,7 @@
                 throw 'Invalid value: ' + value;
             }
             localStorageService.set(this.name, value);
-            $log.debug('AbstractField: saved field ' + name + ' with value: ' + value);
+            this.value = value;
         }
 
         function getName() {

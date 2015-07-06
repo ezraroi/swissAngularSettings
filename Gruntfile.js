@@ -167,11 +167,13 @@ module.exports = function (grunt) {
         'uglify'
     ]);
 
+    grunt.registerTask('publishTestResults', ['coveralls']);
+
     grunt.registerTask('default', [
         'newer:jshint',
         'newer:jscs',
         'test',
-        'coveralls',
+
         'build'
     ]);
 
@@ -180,4 +182,3 @@ module.exports = function (grunt) {
         'bump'
     ]);
 };
-
