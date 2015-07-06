@@ -1,3 +1,4 @@
+[![Bower version](https://badge.fury.io/bo/swissAngularSettings.svg)](http://badge.fury.io/bo/swissAngularSettings)
 [![Build Status](https://travis-ci.org/ezraroi/swissAngularSettings.svg?branch=master)](https://travis-ci.org/ezraroi/swissAngularSettings)
 [![Dependency Status](https://gemnasium.com/ezraroi/swissAngularSettings.svg)](https://gemnasium.com/ezraroi/swissAngularSettings)
 [![Coverage Status](https://coveralls.io/repos/ezraroi/swissAngularSettings/badge.svg?branch=master)](https://coveralls.io/r/ezraroi/swissAngularSettings?branch=master)
