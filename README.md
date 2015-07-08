@@ -20,6 +20,8 @@ or you can add the swissAngularSettings.min.js file to your HTML page:
 <script src="swissAngularSettings.min.js"/>
 ```
 
+Add the `swissAngularSettings` to your module dependencies
+
 ## Dependencies
 The swissAngularSettings depends on the following libraries:
 * angular
