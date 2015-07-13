@@ -13,7 +13,7 @@
         .module('swissAngularSettings')
         .factory('AbstractField', AbstractFieldFactory);
 
-    function AbstractFieldFactory($log, localStorageService) {
+    function AbstractFieldFactory(localStorageService) {
         /* jshint validthis: true */
 
         function AbstractField(name, typeName, defaultValue) {
@@ -24,6 +24,7 @@
             this.typeName = typeName;
             this.defaultValue = angular.isDefined(defaultValue) ?
                 setDefaultValue.call(this, defaultValue) : undefined;
+            this.value = undefined;
         }
 
         AbstractField.prototype = {
@@ -41,8 +42,10 @@
         ////////////////
 
         function getValue() {
-            var value = localStorageService.get(this.name);
-            return angular.isDefined(value) && value !== null ? this.format(value) : this.defaultValue;
+            if (this.value === undefined) {
+                this.value = localStorageService.get(this.name);
+            }
+            return angular.isDefined(this.value) && this.value !== null ? this.format(this.value) : this.defaultValue;
         }
 
         function setValue(value) {
@@ -50,7 +53,7 @@
                 throw 'Invalid value: ' + value;
             }
             localStorageService.set(this.name, value);
-            $log.debug('AbstractField: saved field ' + name + ' with value: ' + value);
+            this.value = value;
         }
 
         function getName() {
@@ -85,7 +88,7 @@
             };
         }
     }
-    AbstractFieldFactory.$inject = ['$log', 'localStorageService'];
+    AbstractFieldFactory.$inject = ['localStorageService'];
 })();
 ;(function () {
     'use strict';
@@ -297,12 +300,14 @@
 
     angular
         .module('swissAngularSettings')
+        .constant('serviceVersionKey', 'serviceVersion')
         .provider('swissSettingsService', swissSettingsService);
 
     function swissSettingsService() {
         /* jshint validthis:true */
 
         var service = this;
+        service.setVersion = setVersion;
         service.registerBooleanField = registerBooleanField;
         service.registerStringField = registerStringField;
         service.registerNumberField = registerNumberField;
@@ -311,21 +316,22 @@
         service.registerObjectField = registerObjectField;
         service.$get = getService;
 
-        var schema = [];
+        var schema = [], serviceVersion;
 
-        getService.$inject = ['$log', '$injector'];
+        getService.$inject = ['$log', '$injector', 'localStorageService', 'serviceVersionKey'];
         return service;
 
         ////////////////
 
         /* @ngInject */
-        function getService($log, $injector) {
+        function getService($log, $injector, localStorageService, serviceVersionKey) {
             $log.debug('swissSettingsService: Creating settings service interface', schema);
             var fields = {};
             var settingsService = {};
             angular.forEach(schema, createItem);
 
-            $log.debug('swissSettingsService: settingsService:', settingsService);
+            checkServiceVersion();
+            $log.debug('swissSettingsService: settingsService was created, version ' + serviceVersion);
 
             return settingsService;
 
@@ -357,6 +363,21 @@
                     };
                 }
             }
+
+            function checkServiceVersion() {
+                var lastVersion = localStorageService.get(serviceVersionKey);
+                if (serviceVersion && lastVersion !== serviceVersion) {
+                    $log.debug('swissSettingsService: will clear local storage as new service version');
+                    $log.debug('swissSettingsService: serviceVersion = ' +
+                        serviceVersion + ', lastVersion = ' + lastVersion);
+                    localStorageService.clearAll();
+                    localStorageService.set(serviceVersionKey, serviceVersion);
+                }
+            }
+        }
+
+        function setVersion(version) {
+            serviceVersion = version;
         }
 
         function registerBooleanField(name, defaultValue) {

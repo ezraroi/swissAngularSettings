@@ -51,4 +51,57 @@ describe('swissSettingsService', function() {
             expect(swissSettingsService.getTest()).toBeTruthy();
         });
     });
+
+    it('should clear local storage on different service version when no ' +
+        'version was defined before', function() {
+        module(function(swissSettingsServiceProvider) {
+            swissSettingsServiceProvider.setVersion('1');
+
+        });
+
+        inject(function($injector, localStorageService) {
+            spyOn(localStorageService, 'clearAll').and.callThrough();
+            $injector.get('swissSettingsService');
+            expect(localStorageService.clearAll).toHaveBeenCalled();
+        });
+    });
+
+    it('should clear local storage on different service version', function() {
+        module(function(swissSettingsServiceProvider) {
+            swissSettingsServiceProvider.setVersion('1');
+        });
+
+        inject(function($injector, localStorageService, serviceVersionKey) {
+            spyOn(localStorageService, 'clearAll').and.callThrough();
+            localStorageService.set(serviceVersionKey, '0');
+            $injector.get('swissSettingsService');
+            expect(localStorageService.clearAll).toHaveBeenCalled();
+        });
+    });
+
+    it('should clear local storage on different service version', function() {
+        module(function(swissSettingsServiceProvider) {
+            swissSettingsServiceProvider.setVersion('1');
+        });
+
+        inject(function($injector, localStorageService, serviceVersionKey) {
+            spyOn(localStorageService, 'clearAll').and.callThrough();
+            localStorageService.set(serviceVersionKey, '0');
+            $injector.get('swissSettingsService');
+            expect(localStorageService.clearAll).toHaveBeenCalled();
+        });
+    });
+
+    it('should not clear from local storage on the same version', function() {
+        module(function(swissSettingsServiceProvider) {
+            swissSettingsServiceProvider.setVersion('1');
+        });
+
+        inject(function($injector, localStorageService, serviceVersionKey) {
+            spyOn(localStorageService, 'clearAll').and.callThrough();
+            localStorageService.set(serviceVersionKey, '1');
+            $injector.get('swissSettingsService');
+            expect(localStorageService.clearAll.calls.count()).toEqual(0);
+        });
+    });
 });

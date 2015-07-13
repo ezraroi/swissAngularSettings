@@ -3,12 +3,14 @@
 
     angular
         .module('swissAngularSettings')
+        .constant('serviceVersionKey', 'serviceVersion')
         .provider('swissSettingsService', swissSettingsService);
 
     function swissSettingsService() {
         /* jshint validthis:true */
 
         var service = this;
+        service.setVersion = setVersion;
         service.registerBooleanField = registerBooleanField;
         service.registerStringField = registerStringField;
         service.registerNumberField = registerNumberField;
@@ -17,20 +19,21 @@
         service.registerObjectField = registerObjectField;
         service.$get = getService;
 
-        var schema = [];
+        var schema = [], serviceVersion;
 
         return service;
 
         ////////////////
 
         /* @ngInject */
-        function getService($log, $injector) {
+        function getService($log, $injector, localStorageService, serviceVersionKey) {
             $log.debug('swissSettingsService: Creating settings service interface', schema);
             var fields = {};
             var settingsService = {};
             angular.forEach(schema, createItem);
 
-            $log.debug('swissSettingsService: settingsService:', settingsService);
+            checkServiceVersion();
+            $log.debug('swissSettingsService: settingsService was created, version ' + serviceVersion);
 
             return settingsService;
 
@@ -62,6 +65,21 @@
                     };
                 }
             }
+
+            function checkServiceVersion() {
+                var lastVersion = localStorageService.get(serviceVersionKey);
+                if (serviceVersion && lastVersion !== serviceVersion) {
+                    $log.debug('swissSettingsService: will clear local storage as new service version');
+                    $log.debug('swissSettingsService: serviceVersion = ' +
+                        serviceVersion + ', lastVersion = ' + lastVersion);
+                    localStorageService.clearAll();
+                    localStorageService.set(serviceVersionKey, serviceVersion);
+                }
+            }
+        }
+
+        function setVersion(version) {
+            serviceVersion = version;
         }
 
         function registerBooleanField(name, defaultValue) {

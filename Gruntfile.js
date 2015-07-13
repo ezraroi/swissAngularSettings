@@ -11,6 +11,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-coveralls');
+    grunt.loadNpmTasks('grunt-env');
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -20,6 +21,13 @@ module.exports = function (grunt) {
             // configurable paths
             app : 'src',
             dist: 'dist'
+        },
+
+        env : {
+            dev : {
+                HTTP_PROXY : 'http://proxy-chain.intel.com:911/',
+                HTTPS_PROXY: 'http://proxy-chain.intel.com:911/'
+            }
         },
 
         // Watches files for changes and runs tasks based on the changed files
@@ -167,13 +175,15 @@ module.exports = function (grunt) {
         'uglify'
     ]);
 
-    grunt.registerTask('publishTestResults', ['coveralls']);
+    grunt.registerTask('publishTestResults', [
+        'env:dev',
+        'coveralls'
+    ]);
 
     grunt.registerTask('default', [
         'newer:jshint',
         'newer:jscs',
         'test',
-
         'build'
     ]);
 
