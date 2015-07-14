@@ -90,3 +90,8 @@ Example:
         swissSettingsService.getMyBoolField(); // false
     }
 ```
+
+### Upgrading application versions
+Sometimes you mke some changes in your application that requieres that will not be compatible with the old way you was saving your application seeitngs. The `swissAngularSettings` provides a mechanism for such cases.
+
+You can call the `setVersion` method of the `swissAngularSettingsProvider` with a key, if the key is different from the previous time the application started, the local storage will be cleaned
