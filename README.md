@@ -46,12 +46,14 @@ Field can be from one the following types:
 ### Defening your service schema
 You can use the following methods of the `swissSettingsServiceProvider` to define your service schema:
 
-* `registerBooleanField(name, [defaultValue])` - Adding a boolean field to your schema with the name `name` and the default value `defaultValue` (optional).
-* `registerStringField(name, [defaultValue]` - Adding a string field to your schema with the name `name` and the default value `defaultValue` (optional).
-* `registerNumberField(name, [defaultValue]` - Adding a number field to your schema with the name `name` and the default value `defaultValue` (optional).
-* `registerArrayField(name, [defaultValue]` - Adding an array field to your schema with the name `name` and the default value `defaultValue` (optional).
-* `registerEnumField(name, allowedValues, [defaultValue]` - Adding an enum field to your schema with the name `name` and the default value `defaultValue` (optional). The field will allow to save only the values defined `allowedValues` **array**
-* `registerObjectField(name, [defaultValue]` - Adding an object field to your schema with the name `name` and the default value `defaultValue` (optional).
+* `registerBooleanField(name, [defaultValue], [storageDuration])` - Adding a boolean field to your schema with the name `name` and the default value `defaultValue` (optional).
+* `registerStringField(name, [defaultValue], [storageDuration])` - Adding a string field to your schema with the name `name` and the default value `defaultValue` (optional).
+* `registerNumberField(name, [defaultValue], [storageDuration])` - Adding a number field to your schema with the name `name` and the default value `defaultValue` (optional).
+* `registerArrayField(name, [defaultValue], [storageDuration])` - Adding an array field to your schema with the name `name` and the default value `defaultValue` (optional).
+* `registerEnumField(name, allowedValues, [defaultValue], [storageDuration])` - Adding an enum field to your schema with the name `name` and the default value `defaultValue` (optional). The field will allow to save only the values defined `allowedValues` **array**
+* `registerObjectField(name, [defaultValue], [storageDuration])` - Adding an object field to your schema with the name `name` and the default value `defaultValue` (optional).
+
+The `storageDuration` is a moment Duration object
 
 Example:
 ```javascript
@@ -63,8 +65,12 @@ Example:
         swissSettingsServiceProvider.registerBooleanField('myBoolField2');
         swissSettingsServiceProvider.registerNumberField('myNumField');
         swissSettingsServiceProvider.registerEnumField('myEnumField', ['a','b'], 'b');
+        swissSettingsServiceProvider.registerEnumField('myTimeBasedField', ['a','b'], 'b', moment.duration(5, 'seconds'));
     }
 ```
+
+### Saving time based values
+You can define in your field how much time after setting the value the value should be ignored and return to default value. You can do this by passing a `moment.duration` object to the field constractor  
 
 ### Using the auto generated service
 For each field you define in your schema, the `swissSettingsService` will have 2 methods:
