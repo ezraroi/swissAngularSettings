@@ -8,8 +8,8 @@
     function ArrayFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function ArrayField(name, defaultValue) {
-            AbstractField.call(this, name, 'ARRAY', defaultValue);
+        function ArrayField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'ARRAY', defaultValue, storageDuration);
         }
 
         ArrayField.prototype = Object.create(AbstractField.prototype);

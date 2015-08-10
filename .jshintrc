@@ -57,6 +57,7 @@
 
     "globals": {
         "angular": false,
+        "moment": false,
         "$": false,
         "_" : false,
         "inject" : false

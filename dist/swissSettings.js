@@ -13,18 +13,21 @@
         .module('swissAngularSettings')
         .factory('AbstractField', AbstractFieldFactory);
 
-    function AbstractFieldFactory(localStorageService) {
+    function AbstractFieldFactory(localStorageService, $log) {
         /* jshint validthis: true */
 
-        function AbstractField(name, typeName, defaultValue) {
+        function AbstractField(name, typeName, defaultValue, storageDuration) {
             if (!name) {
                 throw 'Name must be defined';
             }
             this.name = name;
             this.typeName = typeName;
-            this.defaultValue = angular.isDefined(defaultValue) ?
-                setDefaultValue.call(this, defaultValue) : undefined;
+            this.defaultValue = angular.isDefined(defaultValue) ? defaultValue : undefined;
+            this.storageDuration = storageDuration;
             this.value = undefined;
+            if (angular.isDefined(defaultValue)) {
+                setDefaultValue.call(this, defaultValue);
+            }
         }
 
         AbstractField.prototype = {
@@ -37,6 +40,8 @@
             toJSON      : toJSON
         };
 
+        var setTimePostFix = '_setTime';
+
         return AbstractField;
 
         ////////////////
@@ -44,6 +49,16 @@
         function getValue() {
             if (this.value === undefined) {
                 this.value = localStorageService.get(this.name);
+            }
+            if (this.storageDuration) {
+                var setDate = localStorageService.get(this.name + setTimePostFix);
+                if (setDate && moment(setDate).add(this.storageDuration) < moment()) {
+                    $log.debug('AbstractField: will clear ' + this.name + ' stored value as duration since ' +
+                        'last set passed');
+                    localStorageService.remove(this.name + setTimePostFix);
+                    localStorageService.remove(this.name);
+                    this.value = undefined;
+                }
             }
             return angular.isDefined(this.value) && this.value !== null ? this.format(this.value) : this.defaultValue;
         }
@@ -53,6 +68,9 @@
                 throw 'Invalid value: ' + value;
             }
             localStorageService.set(this.name, value);
+            if (this.storageDuration) {
+                localStorageService.set(this.name + setTimePostFix, new Date());
+            }
             this.value = value;
         }
 
@@ -88,7 +106,7 @@
             };
         }
     }
-    AbstractFieldFactory.$inject = ['localStorageService'];
+    AbstractFieldFactory.$inject = ['localStorageService', '$log'];
 })();
 ;(function () {
     'use strict';
@@ -100,8 +118,8 @@
     function ArrayFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function ArrayField(name, defaultValue) {
-            AbstractField.call(this, name, 'ARRAY', defaultValue);
+        function ArrayField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'ARRAY', defaultValue, storageDuration);
         }
 
         ArrayField.prototype = Object.create(AbstractField.prototype);
@@ -132,8 +150,8 @@
     function BooleanFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function BooleanField(name, defaultValue) {
-            AbstractField.call(this, name, 'BOOLEAN', defaultValue);
+        function BooleanField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'BOOLEAN', defaultValue, storageDuration);
         }
 
         BooleanField.prototype = Object.create(AbstractField.prototype);
@@ -170,7 +188,7 @@
     function EnumFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function EnumField(name, allowedValues, defaultValue) {
+        function EnumField(name, allowedValues, defaultValue, storageDuration) {
             if (!angular.isArray(allowedValues)) {
                 throw 'allowedValues must be array';
             }
@@ -178,7 +196,7 @@
                 throw 'allowedValues must have at least one value';
             }
             this._allowedValues = allowedValues;
-            AbstractField.call(this, name, 'ENUM', defaultValue);
+            AbstractField.call(this, name, 'ENUM', defaultValue, storageDuration);
         }
 
         EnumField.prototype = Object.create(AbstractField.prototype);
@@ -209,8 +227,8 @@
     function NumberFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function NumberField(name, defaultValue) {
-            AbstractField.call(this, name, 'NUMBER', defaultValue);
+        function NumberField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'NUMBER', defaultValue, storageDuration);
         }
 
         NumberField.prototype = Object.create(AbstractField.prototype);
@@ -241,8 +259,8 @@
     function ObjectFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function ObjectField(name, defaultValue) {
-            AbstractField.call(this, name, 'OBJECT', defaultValue);
+        function ObjectField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'OBJECT', defaultValue, storageDuration);
         }
 
         ObjectField.prototype = Object.create(AbstractField.prototype);
@@ -273,8 +291,8 @@
     function StringFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function StringField(name, defaultValue) {
-            AbstractField.call(this, name, 'STRING', defaultValue);
+        function StringField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'STRING', defaultValue, storageDuration);
         }
 
         StringField.prototype = Object.create(AbstractField.prototype);
@@ -317,7 +335,7 @@
         service.$get = getService;
 
         var schema = [], serviceVersion;
-
+
         getService.$inject = ['$log', '$injector', 'localStorageService', 'serviceVersionKey'];
         return service;
 

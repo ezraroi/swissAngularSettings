@@ -8,8 +8,8 @@
     function ObjectFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function ObjectField(name, defaultValue) {
-            AbstractField.call(this, name, 'OBJECT', defaultValue);
+        function ObjectField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'OBJECT', defaultValue, storageDuration);
         }
 
         ObjectField.prototype = Object.create(AbstractField.prototype);

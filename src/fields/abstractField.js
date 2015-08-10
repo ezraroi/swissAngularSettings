@@ -5,18 +5,21 @@
         .module('swissAngularSettings')
         .factory('AbstractField', AbstractFieldFactory);
 
-    function AbstractFieldFactory(localStorageService) {
+    function AbstractFieldFactory(localStorageService, $log) {
         /* jshint validthis: true */
 
-        function AbstractField(name, typeName, defaultValue) {
+        function AbstractField(name, typeName, defaultValue, storageDuration) {
             if (!name) {
                 throw 'Name must be defined';
             }
             this.name = name;
             this.typeName = typeName;
-            this.defaultValue = angular.isDefined(defaultValue) ?
-                setDefaultValue.call(this, defaultValue) : undefined;
+            this.defaultValue = angular.isDefined(defaultValue) ? defaultValue : undefined;
+            this.storageDuration = storageDuration;
             this.value = undefined;
+            if (angular.isDefined(defaultValue)) {
+                setDefaultValue.call(this, defaultValue);
+            }
         }
 
         AbstractField.prototype = {
@@ -29,6 +32,8 @@
             toJSON      : toJSON
         };
 
+        var setTimePostFix = '_setTime';
+
         return AbstractField;
 
         ////////////////
@@ -36,6 +41,16 @@
         function getValue() {
             if (this.value === undefined) {
                 this.value = localStorageService.get(this.name);
+            }
+            if (this.storageDuration) {
+                var setDate = localStorageService.get(this.name + setTimePostFix);
+                if (setDate && moment(setDate).add(this.storageDuration) < moment()) {
+                    $log.debug('AbstractField: will clear ' + this.name + ' stored value as duration since ' +
+                        'last set passed');
+                    localStorageService.remove(this.name + setTimePostFix);
+                    localStorageService.remove(this.name);
+                    this.value = undefined;
+                }
             }
             return angular.isDefined(this.value) && this.value !== null ? this.format(this.value) : this.defaultValue;
         }
@@ -45,6 +60,9 @@
                 throw 'Invalid value: ' + value;
             }
             localStorageService.set(this.name, value);
+            if (this.storageDuration) {
+                localStorageService.set(this.name + setTimePostFix, new Date());
+            }
             this.value = value;
         }
 

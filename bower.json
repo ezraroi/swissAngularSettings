@@ -1,6 +1,6 @@
 {
   "name": "swissAngularSettings;",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "authors": [
     "Roi Ezra <ezraroi@gmail.com>"
   ],
@@ -26,10 +26,14 @@
     ".tmp"
   ],
   "dependencies": {
-    "angular": "~1.3.15",
-    "angular-local-storage": "~0.2.2"
+    "angular": "~1.3.17",
+    "angular-local-storage": "~0.2.2",
+    "moment": "~2.10.6"
   },
   "devDependencies": {
-    "angular-mocks": "~1.3.15"
+    "angular-mocks": "~1.3.17"
+  },
+  "resolutions": {
+    "angular": "~1.3.17"
   }
 }

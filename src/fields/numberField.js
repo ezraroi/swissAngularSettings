@@ -8,8 +8,8 @@
     function NumberFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function NumberField(name, defaultValue) {
-            AbstractField.call(this, name, 'NUMBER', defaultValue);
+        function NumberField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'NUMBER', defaultValue, storageDuration);
         }
 
         NumberField.prototype = Object.create(AbstractField.prototype);

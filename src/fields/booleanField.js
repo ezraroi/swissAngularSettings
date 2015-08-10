@@ -8,8 +8,8 @@
     function BooleanFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function BooleanField(name, defaultValue) {
-            AbstractField.call(this, name, 'BOOLEAN', defaultValue);
+        function BooleanField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'BOOLEAN', defaultValue, storageDuration);
         }
 
         BooleanField.prototype = Object.create(AbstractField.prototype);

@@ -8,7 +8,7 @@
     function EnumFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function EnumField(name, allowedValues, defaultValue) {
+        function EnumField(name, allowedValues, defaultValue, storageDuration) {
             if (!angular.isArray(allowedValues)) {
                 throw 'allowedValues must be array';
             }
@@ -16,7 +16,7 @@
                 throw 'allowedValues must have at least one value';
             }
             this._allowedValues = allowedValues;
-            AbstractField.call(this, name, 'ENUM', defaultValue);
+            AbstractField.call(this, name, 'ENUM', defaultValue, storageDuration);
         }
 
         EnumField.prototype = Object.create(AbstractField.prototype);

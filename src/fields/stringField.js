@@ -8,8 +8,8 @@
     function StringFieldFactory(AbstractField) {
         /* jshint validthis: true */
 
-        function StringField(name, defaultValue) {
-            AbstractField.call(this, name, 'STRING', defaultValue);
+        function StringField(name, defaultValue, storageDuration) {
+            AbstractField.call(this, name, 'STRING', defaultValue, storageDuration);
         }
 
         StringField.prototype = Object.create(AbstractField.prototype);
