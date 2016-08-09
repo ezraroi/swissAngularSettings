@@ -42,7 +42,7 @@
             if (this.value === undefined) {
                 this.value = localStorageService.get(this.name);
             }
-            if (this.storageDuration) {
+            if (this.storageDuration && this.storageDuration !== 0) {
                 var setDate = localStorageService.get(this.name + setTimePostFix);
                 if (setDate && moment(setDate).add(this.storageDuration) < moment()) {
                     $log.debug('AbstractField: will clear ' + this.name + ' stored value as duration since ' +
@@ -59,9 +59,11 @@
             if (!this.validate(value)) {
                 throw 'Invalid value: ' + value;
             }
-            localStorageService.set(this.name, value);
-            if (this.storageDuration) {
-                localStorageService.set(this.name + setTimePostFix, new Date());
+            if (this.storageDuration !== 0) {
+                localStorageService.set(this.name, value);
+                if (this.storageDuration) {
+                    localStorageService.set(this.name + setTimePostFix, new Date());
+                }
             }
             this.value = value;
         }

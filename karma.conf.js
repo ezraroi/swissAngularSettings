@@ -4,6 +4,7 @@ module.exports = function(config) {
             // bower:
             'bower_components/angular/angular.js',
             'bower_components/angular-local-storage/dist/angular-local-storage.js',
+            'bower_components/moment/moment.js',
             'bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/*.js',
